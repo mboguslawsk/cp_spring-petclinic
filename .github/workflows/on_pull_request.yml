@@ -76,7 +76,7 @@ jobs:
   
   push-main-build:
     runs-on: ubuntu-latest
-    if: github.event_name == "refs/heads/main"
+    if: ${{ github.event_name }} == "refs/heads/main"
     outputs:
       docker_image_fullname: ${{ steps.image_name.outputs.docker_image_fullname }}
     env: 
