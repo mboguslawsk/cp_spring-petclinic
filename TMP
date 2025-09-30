@@ -1,0 +1,7 @@
+            <distributionManagement>
+          <repository></repository>
+        <repository></repository>
+      <url>
+    </repository>
+  </distributionManagement>
+</project>
