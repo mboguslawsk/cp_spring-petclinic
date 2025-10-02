@@ -15,6 +15,7 @@ jobs:
   pr-build:
     runs-on: ubuntu-latest
     if: ${{ github.event_name == 'pull_request' }}
+    environment: pr-build
     env:
       GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
       GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
@@ -87,6 +88,7 @@ jobs:
     if: ${{ github.event_name == 'push' }}
     outputs:
       docker_image_fullname: ${{ steps.image_name.outputs.docker_image_fullname }}
+    environment: push-main-build
     env: 
       DOCKER_IMAGE_NAME: ${{ secrets.DOCKER_IMAGE }}
       GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
@@ -135,14 +137,16 @@ jobs:
           docker buildx build -t ${{ env.DOCKER_IMAGE_NAME }}:${{ steps.vers_py.outputs.SEM_VERSION }} --push .
           echo "docker_image_fullname='${{ env.DOCKER_IMAGE_NAME }}:${{ steps.vers_py.outputs.SEM_VERSION }}'" >> $GITHUB_OUTPUT
   
+
   manual_deploy:
     runs-on: ubuntu-latest
     needs: push-main-build
-    environment: production
+    environment: manual_deploy
     env: 
       GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
       GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
     steps:
+
       - name: Check out the repository
         uses: actions/checkout@v3
     
@@ -168,7 +172,6 @@ jobs:
           CP_DATABASE_USERNAME: ${{ secrets.CP_DATABASE_USERNAME }}
           CP_DATABASE_PASSWORD: ${{ secrets.CP_DATABASE_PASSWORD }}
         run: |
-          ssh ubuntu:${file("~/.ssh/terraform_gce_key.pub")}
           ext_ips=($(gcloud compute instances list | grep cp-instance-*-bm | awk '{ print $5 }'))
 
           for ip_val in "${ext_ips[@]}"; do
