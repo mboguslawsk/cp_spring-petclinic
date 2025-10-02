@@ -13,6 +13,7 @@ def get_current_version():
         with open(VERSION_FILE) as f:
             return VersionInfo.parse(f.read().strip())
 
+
 def bump_version_tag(seman_version_type):
     current_ver = get_current_version()
     if seman_version_type == "major":
@@ -33,6 +34,6 @@ def bump_version_tag(seman_version_type):
     print(f"\nBumped version to {new_version}\n")
     return str(new_version)
 
-if __name__ == "main":
+if __name__ == "__main__":
     seman_version_type = sys.argv[1]
     bump_version_tag(seman_version_type)
