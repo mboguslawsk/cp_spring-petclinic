@@ -3,6 +3,8 @@ name: Spring petclinic app pipeline
 on:
   pull_request:
     branches: [main]
+  push:
+    branches: [main]
 
 jobs:
 
