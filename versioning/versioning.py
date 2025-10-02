@@ -28,10 +28,11 @@ def bump_version_tag(seman_version_type):
     with open(VERSION_FILE, "w") as f:
         f.write(str(new_version))
 
-    print("\nAdding git tag ...\n")
+    # Adding git tag ..
     # subprocess.run(["git", "tag", str(new_version)])
+    # Bumped version to new_version
     # subprocess.run(["git", "push", "--tags"])
-    print(f"\nBumped version to {new_version}\n")
+    print(str(new_version))
     return str(new_version)
 
 if __name__ == "__main__":
