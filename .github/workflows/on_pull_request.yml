@@ -132,8 +132,8 @@ jobs:
         id: image_name
         run: |
           echo ${{ secrets.CP_GHA_TOKEN }} | docker login -u ${{ secrets.CP_GHA_USERNAME }} --password-stdin
-          docker buildx build -t ${{ env.DOCKER_IMAGE_NAME }}:${ steps.vers_py.outputs.SEM_VERSION} --push
-          echo "docker_image_fullname='${{ env.DOCKER_IMAGE_NAME }}:${ steps.vers_py.outputs.SEM_VERSION}'" >> $GITHUB_OUTPUT
+          docker buildx build -t ${{ env.DOCKER_IMAGE_NAME }}:${{ steps.vers_py.outputs.SEM_VERSION }} --push
+          echo "docker_image_fullname='${{ env.DOCKER_IMAGE_NAME }}:${{ steps.vers_py.outputs.SEM_VERSION }}'" >> $GITHUB_OUTPUT
   
   manual_deploy:
     runs-on: ubuntu-latest
