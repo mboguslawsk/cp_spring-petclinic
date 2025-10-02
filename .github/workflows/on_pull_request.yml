@@ -108,7 +108,7 @@ jobs:
           pip install semver
           SEM_VERSION=$(python3 versioning/versioning.py minor)
           echo "SEM_VERSION=${SEM_VERSION}" >> $GITHUB_OUTPUT
-          echo "SEM_VERSION=${SEM_VERSION}"
+          echo "var SEM_VERSION=${SEM_VERSION}"
 
       - name: Prepare pom.xml
         run: |
