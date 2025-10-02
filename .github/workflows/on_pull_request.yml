@@ -10,7 +10,7 @@ jobs:
 
   pr-build:
     runs-on: ubuntu-latest
-    if: ${{ github.event_name }} == "pull_request"
+    if: ${{ github.event_name == 'pull_request' }}
     env:
       GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
       GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
@@ -21,7 +21,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Check github event name
-        run: echo ${{ github.event_name }}
+        run: echo ${{ github }}
 
       - name: Set up Java 17
         uses: actions/setup-java@v3
@@ -83,7 +83,7 @@ jobs:
   
   push-main-build:
     runs-on: ubuntu-latest
-    if: ${{ github.event_name }} == "push"
+    if: ${{ github.event_name == 'push' }}
     outputs:
       docker_image_fullname: ${{ steps.image_name.outputs.docker_image_fullname }}
     env: 
