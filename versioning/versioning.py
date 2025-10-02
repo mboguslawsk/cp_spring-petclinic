@@ -29,9 +29,9 @@ def bump_version_tag(seman_version_type):
         f.write(str(new_version))
 
     # Adding git tag ..
-    # subprocess.run(["git", "tag", str(new_version)])
+    subprocess.run(["git", "tag", str(new_version)])
     # Bumped version to new_version
-    # subprocess.run(["git", "push", "--tags"])
+    subprocess.run(["git", "push", "--tags"])
     print(str(new_version))
     return str(new_version)
 
