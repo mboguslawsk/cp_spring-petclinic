@@ -1,4 +1,4 @@
-from semrev import VersionInfo
+from semver import VersionInfo
 
 import subprocess
 import sys
