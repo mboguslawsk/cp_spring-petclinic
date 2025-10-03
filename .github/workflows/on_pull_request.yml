@@ -172,7 +172,7 @@ jobs:
           CP_DATABASE_USERNAME: ${{ secrets.CP_DATABASE_USERNAME }}
           CP_DATABASE_PASSWORD: ${{ secrets.CP_DATABASE_PASSWORD }}
         run: |
-          ext_ips=($(gcloud compute instances list | grep cp-instance-*-bm | awk '{ print $5 }'))
+          ext_ips=($(gcloud compute instances list | grep cp-instance-.*-bm | awk '{ print $5 }'))
 
           echo "================== SHow external IPs: =================="
           echo "${ext_ips[@]}"
