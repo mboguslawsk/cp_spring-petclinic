@@ -186,7 +186,7 @@ jobs:
           for ip_val in "${ext_ips[@]}"; do
             echo "================== Copy SA key to remote host =================="
             
-            scp ~/.gcp/keys/service-account.json ${{ secrets.CP_GCP_VM_USERNAME }}@${ip_val}:~/.gcp/keys/service-account.json
+            scp -i ~/.ssh/terraform_gce_key ~/.gcp/keys/service-account.json ${{ secrets.CP_GCP_VM_USERNAME }}@${ip_val}:~/.gcp/keys/service-account.json
 
             ssh -v -o StrictHostKeyChecking=no -i ~/.ssh/terraform_gce_key \
               ${{ secrets.CP_GCP_VM_USERNAME }}@${ip_val} << 'EOF'
