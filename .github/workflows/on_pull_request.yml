@@ -136,6 +136,7 @@ jobs:
           echo ${{ secrets.CP_GHA_TOKEN }} | docker login -u ${{ secrets.CP_GHA_USERNAME }} --password-stdin
           docker buildx build -t ${{ env.DOCKER_IMAGE_NAME }}:${{ steps.vers_py.outputs.SEM_VERSION }} --push .
           echo "docker_image_fullname='${{ env.DOCKER_IMAGE_NAME }}:${{ steps.vers_py.outputs.SEM_VERSION }}'" >> $GITHUB_OUTPUT
+          echo "docker_image_fullname='${{ env.DOCKER_IMAGE_NAME }}:${{ steps.vers_py.outputs.SEM_VERSION }}'"s
   
 
   manual_deploy:
@@ -176,6 +177,9 @@ jobs:
 
           echo "================== SHow external IPs: =================="
           echo "${ext_ips[@]}"
+          echo "================== image_name =================="
+          echo ${{ env.image_name }}
+          echo "==================  =================="
 
           for ip_val in "${ext_ips[@]}"; do
             echo "================== Login to ${ip_val} =================="
