@@ -137,6 +137,9 @@ jobs:
           docker buildx build -t ${{ env.DOCKER_IMAGE_NAME }}:${{ steps.vers_py.outputs.SEM_VERSION }} --push .
           echo "docker_image_fullname=${{ env.DOCKER_IMAGE_NAME }}:${{ steps.vers_py.outputs.SEM_VERSION }}" >> $GITHUB_OUTPUT
           echo "docker_image_fullname=${{ env.DOCKER_IMAGE_NAME }}:${{ steps.vers_py.outputs.SEM_VERSION }}"
+      - name: Print docker image name
+        run: |
+          echo ${{ steps.image_name.outputs.docker_image_fullname }}
   
 
   manual_deploy:
