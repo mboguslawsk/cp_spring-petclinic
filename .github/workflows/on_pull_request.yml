@@ -186,9 +186,11 @@ jobs:
           for ip_val in "${ext_ips[@]}"; do
             echo "================== Copy SA key to remote host =================="
             
-            scp -i ~/.ssh/terraform_gce_key ~/.gcp/keys/service-account.json ${{ secrets.CP_GCP_VM_USERNAME }}@${ip_val}:~/.gcp/keys/service-account.json
+            scp -o StrictHostKeyChecking=no -i ~/.ssh/terraform_gce_key \
+              ~/.gcp/keys/service-account.json \
+              ${{ secrets.CP_GCP_VM_USERNAME }}@${ip_val}:~/service-account.json
 
-            ssh -v -o StrictHostKeyChecking=no -i ~/.ssh/terraform_gce_key \
+            ssh -o StrictHostKeyChecking=no -i ~/.ssh/terraform_gce_key \
               ${{ secrets.CP_GCP_VM_USERNAME }}@${ip_val} << 'EOF'
             
             docker stop $(docker ps -q) || true
@@ -196,7 +198,7 @@ jobs:
             echo ${{ env.IMAGE_VER }}
             docker pull ${{ env.DOCKER_IMAGE_NAME }}:${{ env.IMAGE_VER }}
 
-            gcloud auth activate-service-account --key-file=~/.gcp/keys/service-account.json
+            gcloud auth activate-service-account --key-file=~/service-account.json
             db_pub_ip=$( gcloud sql instances describe cp-cloud-sql-bm \
               --format="get(ipAddresses[0].ipAddress)" )
             docker run -d -p 8080:8080 --name petclinic \
