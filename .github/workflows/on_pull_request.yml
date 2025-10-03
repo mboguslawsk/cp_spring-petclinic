@@ -167,7 +167,7 @@ jobs:
           mkdir -p ~/.ssh ~/.gcp/keys/
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/terraform_gce_key
           echo "${{ secrets.SSH_PUBLIC_KEY }}" > ~/.ssh/terraform_gce_key.pub
-          echo "${{ env.GCP_SA_KEY }}" > ~/.gcp/keys/service-account.json
+          echo ${{ env.GCP_SA_KEY }} > ~/.gcp/keys/service-account.json
 
           chmod 600 ~/.ssh/terraform_gce_key
           chmod 600 ~/.ssh/terraform_gce_key.pub
