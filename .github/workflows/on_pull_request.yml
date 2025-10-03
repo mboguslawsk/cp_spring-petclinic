@@ -149,7 +149,6 @@ jobs:
     env: 
       GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
       GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
-      image_name: ${{ needs.push-main-build.outputs.docker_image_fullname }}
     steps:
 
       - name: Check out the repository
@@ -175,13 +174,14 @@ jobs:
         env:
           CP_DATABASE_USERNAME: ${{ secrets.CP_DATABASE_USERNAME }}
           CP_DATABASE_PASSWORD: ${{ secrets.CP_DATABASE_PASSWORD }}
+          DOCKER_IMAGE: ${{ needs.push-main-build.outputs.docker_image_fullname }}
         run: |
           ext_ips=($(gcloud compute instances list | grep cp-instance-.*-bm | awk '{ print $5 }'))
 
           echo "================== SHow external IPs: =================="
           echo "${ext_ips[@]}"
           echo "================== image_name =================="
-          echo ${{ env.image_name }}
+          echo ${{ env.DOCKER_IMAGE }}
           echo "==================  =================="
 
           for ip_val in "${ext_ips[@]}"; do
@@ -191,8 +191,8 @@ jobs:
             
             docker stop $(docker ps -q) || true
             echo "================== image_name =================="
-            echo ${{ env.image_name }}
-            docker pull ${{ env.image_name }}
+            echo ${{ env.DOCKER_IMAGE }}
+            docker pull ${{ env.DOCKER_IMAGE }}
 
             gcloud auth activate-service-account --key-file=~/.gcp/keys/service-account.json
             db_pub_ip=$( gcloud sql instances describe cp-cloud-sql-bm \
@@ -201,7 +201,7 @@ jobs:
               --env SPRING_DATASOURCE_URL=jdbc:postgresql://${db_pub_ip}:5432/petclinic \
               --env SPRING_DATASOURCE_USERNAME=${{ env.CP_DATABASE_USERNAME }} \
               --env SPRING_DATASOURCE_PASSWORD=${{ env.CP_DATABASE_PASSWORD }} \
-              ${{ env.image_name }}
+              ${{ env.DOCKER_IMAGE }}
           EOF
           done
 
