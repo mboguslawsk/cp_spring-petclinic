@@ -135,8 +135,7 @@ jobs:
         run: |
           echo ${{ secrets.CP_GHA_TOKEN }} | docker login -u ${{ secrets.CP_GHA_USERNAME }} --password-stdin
           docker buildx build -t ${{ env.DOCKER_IMAGE_NAME }}:${{ steps.vers_py.outputs.SEM_VERSION }} --push .
-          echo "docker_image_fullname=${{ env.DOCKER_IMAGE_NAME }}:${{ steps.vers_py.outputs.SEM_VERSION }}" >> $GITHUB_OUTPUT
-          echo "docker_image_fullname=${{ env.DOCKER_IMAGE_NAME }}:${{ steps.vers_py.outputs.SEM_VERSION }}"
+          echo "docker_image_fullname=${{ steps.vers_py.outputs.SEM_VERSION }}" >> $GITHUB_OUTPUT
       - name: Print docker image name
         run: |
           echo ${{ steps.image_name.outputs.docker_image_fullname }}
@@ -149,6 +148,7 @@ jobs:
     env: 
       GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
       GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
+      IMAGE_VER: ${{ needs.push-main-build.outputs.docker_image_fullname }}
     steps:
 
       - name: Check out the repository
@@ -174,14 +174,14 @@ jobs:
         env:
           CP_DATABASE_USERNAME: ${{ secrets.CP_DATABASE_USERNAME }}
           CP_DATABASE_PASSWORD: ${{ secrets.CP_DATABASE_PASSWORD }}
-          DOCKER_IMAGE: ${{ needs.push-main-build.outputs.docker_image_fullname }}
+          
         run: |
           ext_ips=($(gcloud compute instances list | grep cp-instance-.*-bm | awk '{ print $5 }'))
 
           echo "================== SHow external IPs: =================="
           echo "${ext_ips[@]}"
           echo "================== image_name =================="
-          echo ${{ env.DOCKER_IMAGE }}
+          echo ${{ env.DOCKER_IMAGE_NAME }}:${{ env.IMAGE_VER }}
           echo "==================  =================="
 
           for ip_val in "${ext_ips[@]}"; do
@@ -191,8 +191,8 @@ jobs:
             
             docker stop $(docker ps -q) || true
             echo "================== image_name =================="
-            echo ${{ env.DOCKER_IMAGE }}
-            docker pull ${{ env.DOCKER_IMAGE }}
+            echo ${{ env.IMAGE_VER }}
+            docker pull ${{ env.DOCKER_IMAGE_NAME }}:${{ env.IMAGE_VER }}
 
             gcloud auth activate-service-account --key-file=~/.gcp/keys/service-account.json
             db_pub_ip=$( gcloud sql instances describe cp-cloud-sql-bm \
@@ -201,7 +201,7 @@ jobs:
               --env SPRING_DATASOURCE_URL=jdbc:postgresql://${db_pub_ip}:5432/petclinic \
               --env SPRING_DATASOURCE_USERNAME=${{ env.CP_DATABASE_USERNAME }} \
               --env SPRING_DATASOURCE_PASSWORD=${{ env.CP_DATABASE_PASSWORD }} \
-              ${{ env.DOCKER_IMAGE }}
+              ${{ env.DOCKER_IMAGE_NAME }}:${{ env.IMAGE_VER }}
           EOF
           done
 
