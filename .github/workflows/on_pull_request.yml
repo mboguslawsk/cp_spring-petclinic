@@ -183,6 +183,8 @@ jobs:
               ${{ secrets.CP_GCP_VM_USERNAME }}@${ip_val} << 'EOF'
             
             docker stop $(docker ps -q) || true
+            echo "================== image_name =================="
+            echo ${{ env.image_name }}
             docker pull ${{ env.image_name }}
 
             gcloud auth activate-service-account --key-file=~/.gcp/keys/service-account.json
