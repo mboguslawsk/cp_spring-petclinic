@@ -167,7 +167,7 @@ jobs:
           mkdir -p ~/.ssh ~/.gcp/keys/
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/terraform_gce_key
           echo "${{ secrets.SSH_PUBLIC_KEY }}" > ~/.ssh/terraform_gce_key.pub
-          echo ${{ env.GCP_SA_KEY }} > ~/.gcp/keys/service-account.json
+          echo '${{ env.GCP_SA_KEY }}' > ~/.gcp/keys/service-account.json
 
           chmod 600 ~/.ssh/terraform_gce_key
           chmod 600 ~/.ssh/terraform_gce_key.pub
@@ -198,7 +198,7 @@ jobs:
             echo ${{ env.IMAGE_VER }}
             docker pull ${{ env.DOCKER_IMAGE_NAME }}:${{ env.IMAGE_VER }}
 
-            gcloud auth activate-service-account --key-file=~/service-account.json
+            gcloud auth activate-service-account --key-file="$HOME/service-account.json"
             db_pub_ip=$( gcloud sql instances describe cp-cloud-sql-bm \
               --format="get(ipAddresses[0].ipAddress)" )
             docker run -d -p 8080:8080 --name petclinic \
