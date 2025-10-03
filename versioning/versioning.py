@@ -36,9 +36,9 @@ def bump_version_tag(seman_version_type):
     subprocess.run(["git", "push", "--tags"])
 
     # Adding VERSION file modifications to the last pushed commit
-    subprocess.run(["git", "add", "."])
-    subprocess.run(["git", "commit", "--amend", "--no-edit", "--quiet"])
-    subprocess.run(["git", "push", "--force", "--quiet"])
+    # subprocess.run(["git", "add", "."])
+    # subprocess.run(["git", "commit", "--amend", "--no-edit", "--quiet"])
+    # subprocess.run(["git", "push", "--force", "--quiet"])
 
     print(str(new_version))
     return str(new_version)
