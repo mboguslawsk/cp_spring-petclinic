@@ -179,7 +179,7 @@ jobs:
 
           for ip_val in "${ext_ips[@]}"; do
             echo "================== Login to ${ip_val} =================="
-            ssh -i ~/.ssh/terraform_gce_key ${{ secrets.CP_GCP_VM_USERNAME }}@ip_val
+            ssh -i ~/.ssh/terraform_gce_key ${{ secrets.CP_GCP_VM_USERNAME }}@${ip_val}
             docker stop $(docker ps -q)
             docker pull ${{ env.image_name }}
 
