@@ -149,6 +149,9 @@ jobs:
       GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
       GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
       IMAGE_VER: ${{ needs.push-main-build.outputs.docker_image_fullname }}
+      DOCKER_IMAGE_NAME: ${{ secrets.DOCKER_IMAGE }}
+      CP_DATABASE_USERNAME: ${{ secrets.CP_DATABASE_USERNAME }}
+      CP_DATABASE_PASSWORD: ${{ secrets.CP_DATABASE_PASSWORD }}
     steps:
 
       - name: Check out the repository
@@ -171,10 +174,6 @@ jobs:
           chmod 600 ~/.gcp/keys/service-account.json
    
       - name: Get IP address of two VMs and run docker container
-        env:
-          CP_DATABASE_USERNAME: ${{ secrets.CP_DATABASE_USERNAME }}
-          CP_DATABASE_PASSWORD: ${{ secrets.CP_DATABASE_PASSWORD }}
-          
         run: |
           ext_ips=($(gcloud compute instances list | grep cp-instance-.*-bm | awk '{ print $5 }'))
 
