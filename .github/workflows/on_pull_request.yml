@@ -166,7 +166,7 @@ jobs:
           chmod 600 ~/.ssh/terraform_gce_key.pub
           chmod 600 ~/.gcp/keys/service-account.json
    
-      - name: Get IP address of two VMs
+      - name: Get IP address of two VMs and run docker container
         env:
           image_name: ${{ needs.push-main-build.outputs.docker_image_fullname }}
           CP_DATABASE_USERNAME: ${{ secrets.CP_DATABASE_USERNAME }}
@@ -174,7 +174,11 @@ jobs:
         run: |
           ext_ips=($(gcloud compute instances list | grep cp-instance-*-bm | awk '{ print $5 }'))
 
+          echo "================== SHow external IPs: =================="
+          echo "${ext_ips[@]}"
+
           for ip_val in "${ext_ips[@]}"; do
+            echo "================== Login to ${ip_val} =================="
             ssh -i ~/.ssh/terraform_gce_key ${{ secrets.CP_GCP_VM_USERNAME }}@ip_val
             docker stop $(docker ps -q)
             docker pull ${{ env.image_name }}
