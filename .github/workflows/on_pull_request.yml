@@ -149,6 +149,7 @@ jobs:
     env: 
       GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
       GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
+      image_name: ${{ needs.push-main-build.outputs.docker_image_fullname }}
     steps:
 
       - name: Check out the repository
@@ -172,7 +173,6 @@ jobs:
    
       - name: Get IP address of two VMs and run docker container
         env:
-          image_name: ${{ needs.push-main-build.outputs.docker_image_fullname }}
           CP_DATABASE_USERNAME: ${{ secrets.CP_DATABASE_USERNAME }}
           CP_DATABASE_PASSWORD: ${{ secrets.CP_DATABASE_PASSWORD }}
         run: |
@@ -181,7 +181,7 @@ jobs:
           echo "================== SHow external IPs: =================="
           echo "${ext_ips[@]}"
           echo "================== image_name =================="
-          echo $image_name
+          echo ${{ env.image_name }}
           echo "==================  =================="
 
           for ip_val in "${ext_ips[@]}"; do
