@@ -179,7 +179,7 @@ jobs:
 
           for ip_val in "${ext_ips[@]}"; do
             echo "================== Login to ${ip_val} =================="
-            ssh -o StrictHostKeyChecking=no  -i ~/.ssh/terraform_gce_key \
+            ssh -i ~/.ssh/terraform_gce_key \
               ${{ secrets.CP_GCP_VM_USERNAME }}@${ip_val} << 'EOF'
             
             docker stop $(docker ps -q) || true
