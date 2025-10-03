@@ -193,7 +193,7 @@ jobs:
               --env SPRING_DATASOURCE_USERNAME=${{ env.CP_DATABASE_USERNAME }} \
               --env SPRING_DATASOURCE_PASSWORD=${{ env.CP_DATABASE_PASSWORD }} \
               ${{ env.image_name }}
-            EOF
+          EOF
           done
 
       - name: Print external address of the app
