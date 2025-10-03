@@ -178,7 +178,7 @@ jobs:
           echo "================== SHow external IPs: =================="
           echo "${ext_ips[@]}"
           echo "================== image_name =================="
-          echo ${{ env.image_name }}
+          echo $image_name
           echo "==================  =================="
 
           for ip_val in "${ext_ips[@]}"; do
