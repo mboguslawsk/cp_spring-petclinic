@@ -189,6 +189,7 @@ jobs:
               ${{ secrets.CP_GCP_VM_USERNAME }}@${ip_val}:~/service-account.json
 
             echo "================== Connect to ${ip_val} via ssh =================="
+            
 
             ssh -o StrictHostKeyChecking=no -i ~/.ssh/terraform_gce_key \
               ${{ secrets.CP_GCP_VM_USERNAME }}@${ip_val} << 'EOF'
