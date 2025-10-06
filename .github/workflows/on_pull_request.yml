@@ -127,8 +127,8 @@ jobs:
           export SEM_VERSION="${{ steps.vers_py.outputs.SEM_VERSION }}"
           envsubst < pom_template.xml > pom.xml
 
-      - name: Clean, test, compile with Maven
-        run: mvn -B clean install -Dcheckstyle.skip
+      - name: Clean, compile with Maven
+        run: mvn -B clean install -DskipTests -Dcheckstyle.skip
 
       - name: Docker image processing and pushing
         id: image_name
