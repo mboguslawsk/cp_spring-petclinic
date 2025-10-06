@@ -206,6 +206,14 @@ jobs:
               --env SPRING_DATASOURCE_USERNAME=${{ env.CP_DATABASE_USERNAME }} \
               --env SPRING_DATASOURCE_PASSWORD=${{ env.CP_DATABASE_PASSWORD }} \
               ${{ env.DOCKER_IMAGE_NAME }}:${{ env.IMAGE_VER }}
+
+            docker run -d -p 8080:8080 --name petclinic 
+              -e POSTGRES_URL=jdbc:postgresql://${db_pub_ip}:5432/petclinic 
+              -e POSTGRES_USER=${{ env.CP_DATABASE_USERNAME }} 
+              -e POSTGRES_PASSWORD=${{ env.CP_DATABASE_PASSWORD }} 
+              -e POSTGRES_DB=petclinic  
+              ${{ env.DOCKER_IMAGE_NAME }}:${{ env.IMAGE_VER }}
+
           EOF
           done
 
