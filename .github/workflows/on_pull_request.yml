@@ -214,7 +214,7 @@ jobs:
             docker run -d -p 8080:8080 --name petclinic \
               --env POSTGRES_URL=jdbc:postgresql://${db_pub_ip}:5432/petclinic \
               --env POSTGRES_USER=${{ env.CP_DATABASE_USERNAME }} \
-              --env POSTGRES_PASSWORD=${{ env.CP_DATABASE_PASSWORD }} \
+              --env POSTGRES_PASS=${{ env.CP_DATABASE_PASSWORD }} \
               --env POSTGRES_DB=petclinic  \
               ${{ env.DOCKER_IMAGE_NAME }}:${{ env.IMAGE_VER }}
 
