@@ -177,18 +177,18 @@ jobs:
         run: |
           ext_ips=($(gcloud compute instances list | grep cp-instance-.*-bm | awk '{ print $5 }'))
 
-          echo "================== SHow external IPs: =================="
+          echo "================== SHow external IPs of the instances: =================="
           echo "${ext_ips[@]}"
-          echo "================== image_name =================="
-          echo ${{ env.DOCKER_IMAGE_NAME }}:${{ env.IMAGE_VER }}
-          echo "==================  =================="
 
           for ip_val in "${ext_ips[@]}"; do
+            echo "================== Setting up ${ip_val} =================="
             echo "================== Copy SA key to remote host =================="
             
             scp -o StrictHostKeyChecking=no -i ~/.ssh/terraform_gce_key \
               ~/.gcp/keys/service-account.json \
               ${{ secrets.CP_GCP_VM_USERNAME }}@${ip_val}:~/service-account.json
+
+            echo "================== Connect to ${ip_val} via ssh =================="
 
             ssh -o StrictHostKeyChecking=no -i ~/.ssh/terraform_gce_key \
               ${{ secrets.CP_GCP_VM_USERNAME }}@${ip_val} << 'EOF'
