@@ -195,7 +195,7 @@ jobs:
               ${{ secrets.CP_GCP_VM_USERNAME }}@${ip_val} << 'EOF'
             
             docker stop $(docker ps -q) || true && docker rm $(docker ps -aq) || true
-            echo "================== image_name =================="
+            echo "================== Image version =================="
             echo ${{ env.DOCKER_IMAGE_NAME }}:${{ env.IMAGE_VER }}
             docker pull ${{ env.DOCKER_IMAGE_NAME }}:${{ env.IMAGE_VER }}
 
@@ -208,6 +208,8 @@ jobs:
             #   --env SPRING_DATASOURCE_USERNAME=${{ env.CP_DATABASE_USERNAME }} \
             #   --env SPRING_DATASOURCE_PASSWORD=${{ env.CP_DATABASE_PASSWORD }} \
             #   ${{ env.DOCKER_IMAGE_NAME }}:${{ env.IMAGE_VER }}
+
+            echo "================== Run container =================="
 
             docker run -d -p 8080:8080 --name petclinic \
               --env POSTGRES_URL=jdbc:postgresql://${db_pub_ip}:5432/petclinic \
