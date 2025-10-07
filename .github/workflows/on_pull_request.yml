@@ -5,6 +5,7 @@ on:
     branches: [main]
   push:
     branches: [main]
+    
 
 permissions:
   contents: write
@@ -14,7 +15,7 @@ jobs:
 
   pr-build:
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'pull_request' }}
+    if: ${{ github.event_name == 'workflow_dispatch' }}. # change to pull_request
     environment: pr-build
     env:
       GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
