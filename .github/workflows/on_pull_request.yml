@@ -48,16 +48,18 @@ jobs:
           envsubst < pom_template.xml > pom.xml
       
       - name: Validate with Maven
-        run: mvn -B -Dcheckstyle.skip=true validate
+        run: | 
+          mvn clean install -U
+          mvn -B validate
       
       - name: Compile with Maven
-        run: mvn -B -Dcheckstyle.skip=true compile
+        run: mvn -B compile
 
       - name: Test with Maven
-        run: mvn -B -Dcheckstyle.skip=true test
+        run: mvn -B test
       
-      - name: Clean, test, compile with Maven
-        run: mvn -B -Dcheckstyle.skip=true clean install
+      - name: Clean, compile with Maven
+        run: mvn -B -DskipTests clean install
 
       - name: Authenticate to GCP
         uses: 'google-github-actions/auth@v3'
@@ -76,7 +78,7 @@ jobs:
                 <password>${{ env.GCP_SA_KEY }}</password>
               </server>
             </servers>
-          <settings>
+          </settings>
           EOF
 
       
