@@ -44,8 +44,8 @@ jobs:
         run: |
           SHORT_HASH="${{ github.event.after }}"
           SHORT_HASH="${SHORT_HASH:0:7}"
-          export ART_REGISTRY_URL="${{ env.GCP_ARTIF_REGISTRY_URL }}_${SHORT_HASH}"
-          export SEM_VERSION="${{ steps.version_py.outputs.SEM_VERSION }}"
+          export ART_REGISTRY_URL="${{ env.GCP_ARTIF_REGISTRY_URL }}"
+          export SEM_VERSION="${{ steps.version_py.outputs.SEM_VERSION }}_${SHORT_HASH}"
           envsubst < pom_template.xml > pom.xml
       
       - name: Validate with Maven
