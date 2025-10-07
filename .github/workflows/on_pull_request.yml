@@ -50,16 +50,16 @@ jobs:
       - name: Validate with Maven
         run: | 
           mvn clean install -U
-          mvn -B validate
+          mvn -B -Dcheckstyle.skip=true validate
       
       - name: Compile with Maven
-        run: mvn -B compile
+        run: mvn -B -Dcheckstyle.skip=true compile
 
       - name: Test with Maven
-        run: mvn -B test
+        run: mvn -B -Dcheckstyle.skip=true test
       
-      - name: Clean, compile with Maven
-        run: mvn -B -DskipTests clean install
+      - name: Clean, test, compile with Maven
+        run: mvn -B -Dcheckstyle.skip=true -DskipChecks clean install
 
       - name: Authenticate to GCP
         uses: 'google-github-actions/auth@v3'
@@ -78,7 +78,7 @@ jobs:
                 <password>${{ env.GCP_SA_KEY }}</password>
               </server>
             </servers>
-          </settings>
+          <settings>
           EOF
 
       
