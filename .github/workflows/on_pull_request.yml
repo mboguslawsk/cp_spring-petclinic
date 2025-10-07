@@ -77,7 +77,7 @@ jobs:
                 <password>${{ env.GCP_SA_KEY }}</password>
               </server>
             </servers>
-          <settings>
+          </settings>
           EOF
 
       
