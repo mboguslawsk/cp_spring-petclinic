@@ -42,7 +42,7 @@ jobs:
         
       - name: Prepare pom.xml
         run: |
-          SHORT_HASH="${{ github.event.after }}"
+          SHORT_HASH="${{ github.sha }}"
           SHORT_HASH="${SHORT_HASH:0:7}"
           CURRENT_VERSION=$( cat VERSION )
           export ART_REGISTRY_URL="${{ env.GCP_ARTIF_REGISTRY_URL }}"
