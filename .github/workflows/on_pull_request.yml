@@ -33,19 +33,20 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
       
-      - name: Bump Semantic Version
-        id: version_py
-        run: |
-          pip install semver
-          SEM_VERSION=$(python3 versioning/versioning.py minor)
-          echo "SEM_VERSION=${SEM_VERSION}" >> $GITHUB_OUTPUT
+      # - name: Bump Semantic Version
+      #   id: version_py
+      #   run: |
+      #     pip install semver
+      #     SEM_VERSION=$(python3 versioning/versioning.py minor)
+      #     echo "SEM_VERSION=${SEM_VERSION}" >> $GITHUB_OUTPUT
         
       - name: Prepare pom.xml
         run: |
           SHORT_HASH="${{ github.event.after }}"
           SHORT_HASH="${SHORT_HASH:0:7}"
+          CURRENT_VERSION=$( cat VERSION )
           export ART_REGISTRY_URL="${{ env.GCP_ARTIF_REGISTRY_URL }}"
-          export SEM_VERSION="${{ steps.version_py.outputs.SEM_VERSION }}_${SHORT_HASH}"
+          export SEM_VERSION="${CURRENT_VERSION}_${SHORT_HASH}"
           envsubst < pom_template.xml > pom.xml
       
       - name: Validate with Maven
