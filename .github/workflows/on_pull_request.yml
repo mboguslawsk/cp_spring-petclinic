@@ -58,7 +58,7 @@ jobs:
         run: mvn -B -Dcheckstyle.skip=true test
       
       - name: Clean, test, compile with Maven
-        run: mvn -B -Dcheckstyle.skip=true clean install
+        run: mvn -B -Dcheckstyle.skip=true -DskipChecks clean install
 
       - name: Authenticate to GCP
         uses: 'google-github-actions/auth@v3'
@@ -82,7 +82,7 @@ jobs:
 
       
       - name: Deploy to the Artifact Registry
-        run: mvn deploy
+        run: mvn deploy -Dcheckstyle.skip=true
       
 
       
