@@ -32,13 +32,6 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-      
-      # - name: Bump Semantic Version
-      #   id: version_py
-      #   run: |
-      #     pip install semver
-      #     SEM_VERSION=$(python3 versioning/versioning.py minor)
-      #     echo "SEM_VERSION=${SEM_VERSION}" >> $GITHUB_OUTPUT
         
       - name: Prepare pom.xml
         run: |
