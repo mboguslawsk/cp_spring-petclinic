@@ -14,7 +14,7 @@ The CI/CD process is implemented using GitHub Actions (GHA) pipelines. There are
 * After deployment, the application becomes accessible via the external IP address of the GCP load balancer.
 
 <p align="center">
-  <img src="img/img3.png" alt="Main Branch Deployment Example" width="100%">
+  <img src="img/img2.png" alt="Main Branch Deployment Example" width="100%">
 </p>
 
 ---
@@ -26,5 +26,5 @@ The CI/CD process is implemented using GitHub Actions (GHA) pipelines. There are
 * The artifact is then uploaded to the Artifact Registry in GCP.
 
 <p align="center">
-  <img src="img/img2.png" alt="PR Workflow Example" width="100%">
+  <img src="img/img1.png" alt="PR Workflow Example" width="100%">
 </p>
