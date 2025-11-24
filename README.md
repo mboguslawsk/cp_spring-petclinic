@@ -2,6 +2,8 @@
 
 This project is based on the official [Spring PetClinic Sample Application](https://github.com/spring-projects/spring-petclinic).
 
+This repo is part of the Capstone Project, which can be accessed via the [link](https://github.com/mboguslawsk/cp_main_capstone_project). 
+
 The CI/CD process is implemented using GitHub Actions (GHA) pipelines. There are two supported cases:
 
 ---
